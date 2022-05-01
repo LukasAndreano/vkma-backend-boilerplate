@@ -5,7 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "dev": "ts-node-dev --respawn --cls ./index.ts",
-    "build": "npx prettier --write . && npx tsc && npm run start",
+    "build": "npx run prettier && npx tsc && npm run start",
     "start": "ts-node ./dist",
     "prettier": "npx prettier --write ."
   },
