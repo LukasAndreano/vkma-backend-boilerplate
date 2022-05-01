@@ -7,5 +7,5 @@ export default (msg: any) => {
 
   fs.writeFileSync("./dev-utils/log.txt", log);
 
-  console.log(typeof msg);
+  console.log(msg);
 };
