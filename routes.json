@@ -1,0 +1,6 @@
+{
+  "v1": [
+    { "url": "/v1/initialize", "path": "./routes/v1/initialize" },
+    { "url": "/v1/profile", "path": "./routes/v1/profile" }
+  ]
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "code": 0,
+    "msg": "Access denied."
+  },
+  {
+    "code": 1,
+    "msg": "Route is not exists. Please check the route."
+  },
+  {
+    "code": 2,
+    "msg": "Server error. Contact with developer."
+  }
+]
