@@ -3,7 +3,7 @@ import fs from "fs";
 export default (msg: any) => {
   let log = fs.readFileSync("./dev-utils/log.txt", "utf8");
 
-  log += "\n" + (typeof msg === "object" ? JSON.stringify(msg) : msg);
+  log += "\n" + JSON.stringify(msg);
 
   fs.writeFileSync("./dev-utils/log.txt", log);
 
