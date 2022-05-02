@@ -1,5 +1,5 @@
 import { Response } from "express";
-import errorCodes from "../errorCodes.json";
+import * as errorCodes from "../errorCodes.json";
 
 class response {
   res: Response;

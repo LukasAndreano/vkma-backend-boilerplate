@@ -1,5 +1,6 @@
-import mysql, { Pool } from "mysql";
-import util from "util";
+import * as mysql from "mysql";
+import * as util from "util";
+import { Pool } from "mysql";
 
 const pool: Pool = mysql.createPool({
   host: process.env.DB_HOST,

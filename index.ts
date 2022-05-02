@@ -1,19 +1,20 @@
-import dotenv from "dotenv";
+import * as dotenv from "dotenv";
 
 // Make .env readable
 dotenv.config();
 
-import express, { Application, Request, Response } from "express";
-import bodyParser from "body-parser";
-import fileUpload from "express-fileupload";
-import cors from "cors";
+import * as express from "express";
+import * as bodyParser from "body-parser";
+import * as fileUpload from "express-fileupload";
+import * as cors from "cors";
 
 import response from "./utils/response";
 
 import paramsMiddleware from "./middleware/params";
 import adminMiddleware from "./middleware/admin";
 
-import routes from "./routes.json";
+import * as routes from "./routes.json";
+import { Application, Request, Response } from "express";
 
 const app: Application = express();
 
@@ -55,7 +56,5 @@ app.use((req: Request, res: Response) => res.reply.error(1, 404));
 (async () => {
   app.listen(process.env.PORT, () => {
     console.log(`[Log] Server started on port ${process.env.PORT}`);
-
-    if (process.env.TS_NODE_DEV) global.dev = require("./dev-utils");
   });
 })();
