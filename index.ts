@@ -46,9 +46,9 @@ app.use(adminMiddleware);
 // Nginx proxy
 app.set("trust proxy", 1);
 
-routes["v1"].forEach((el) => {
+for (const el of routes["v1"]) {
   app.use(el.url, require(el.path));
-});
+}
 
 // Route is not exists
 app.use((req: Request, res: Response) => res.reply.error(1, 404));

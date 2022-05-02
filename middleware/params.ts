@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import check from "vkminiapps-params-checker";
+import * as check from "vkminiapps-params-checker";
 import query from "../utils/database";
 
 export default async (req: Request, res: Response, next) => {
