@@ -1,1 +1,1 @@
-module.exports = [require("./get"), require('./patch')];
+module.exports = [require("./get"), require("./patch")];

@@ -9,8 +9,14 @@ export default async (req: Request, res: Response, next) => {
 
   const parsedAuthParams = req.headers.authorization.slice(7);
 
-  if (!check(parsedAuthParams, process.env.SERVICE_KEY, +process.env.AUTHORIZATION_LIFETIME))
-      return res.reply.error(0, 401);
+  if (
+    !check(
+      parsedAuthParams,
+      process.env.SERVICE_KEY,
+      +process.env.AUTHORIZATION_LIFETIME
+    )
+  )
+    return res.reply.error(0, 401);
 
   // Getting user_id from params
   const user_id: number = +parsedAuthParams
