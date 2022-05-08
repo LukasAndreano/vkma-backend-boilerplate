@@ -10,7 +10,7 @@
     "prettier": "npx prettier --write ."
   },
   "keywords": [],
-  "author": "",
+  "author": "Nikita Balin",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.27.2",

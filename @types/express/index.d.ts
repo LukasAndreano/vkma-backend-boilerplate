@@ -12,7 +12,7 @@ interface ReplySchema {
 
 declare namespace Express {
   interface Response {
-    reply: ReplySchema;
+    reply?: ReplySchema;
   }
   interface Request {
     user?: UserSchema;
