@@ -38,6 +38,8 @@ jobs:
           script: |
             docker login ${{ secrets.REGISTRY_URL }} -u ${{ secrets.REGISTRY_LOGIN }} -p ${{ secrets.REGISTRY_PASSWORD }} &&
             docker pull ${{ secrets.REGISTRY_URL }}/${{ github.event.repository.name }}:latest &&
+            docker stop ${{ github.event.repository.name }} || true &&
+            docker rm ${{ github.event.repository.name }} || true &&
             echo -e "${{ secrets.ENV }}" > env.list &&
             docker run --restart=always --env-file ./env.list --net=host -d -p ${{ secrets.RUN_PORT }}:${{ secrets.RUN_PORT }} --name=${{ github.event.repository.name }} ${{ secrets.REGISTRY_URL }}/${{ github.event.repository.name }}:latest &&
             docker image prune --filter="dangling=true" -f
