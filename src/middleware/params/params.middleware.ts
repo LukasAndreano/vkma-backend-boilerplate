@@ -1,6 +1,6 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { ParamsService } from './params.service';
-import * as check from 'vkminiapps-params-checker';
+import checkHash from 'vkminiapps-params-checker';
 import { UserDataDto } from 'src/dto/user-data.dto';
 
 @Injectable()
@@ -9,7 +9,7 @@ export class ParamsMiddleware implements NestMiddleware {
 
   async use(req: any, res: any, next: () => void) {
     if (
-      !check(
+      !checkHash(
         req?.headers?.authorization?.slice(7) || '',
         process.env.APP_SECRET_KEY,
         +process.env.AUTHORIZATION_LIFETIME || 0,

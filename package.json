@@ -36,7 +36,7 @@
     "swagger-ui-express": "^4.6.0",
     "typeorm": "^0.3.11",
     "vk-io": "^4.8.1",
-    "vkminiapps-params-checker": "^1.0.3"
+    "vkminiapps-params-checker": "^1.0.9"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",
