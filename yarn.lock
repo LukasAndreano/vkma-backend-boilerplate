@@ -5171,10 +5171,10 @@ vk-io@^4.8.1:
     middleware-io "^2.8.1"
     node-fetch "^3.2.10"
 
-vkminiapps-params-checker@^1.0.9:
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/vkminiapps-params-checker/-/vkminiapps-params-checker-1.0.9.tgz#7aedc9a8714b5cb2cde78ef70bd3bc6077cf6176"
-  integrity sha512-ZTEB3nTVEdJPIy3H/dTdtU39zM/6GnzpHRMcLernXGidlV1wQOg2U3gqOPGzMONqwS1MAiYPRJS+iujHQrJ13A==
+vkminiapps-params-checker@^1.0.11:
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/vkminiapps-params-checker/-/vkminiapps-params-checker-1.0.11.tgz#71397d7548a80984838816bae893ae8fc09b921f"
+  integrity sha512-fxPqBAHGfS9X+5EY3Qs0H5kVuxs9fGPrV6/TNHZgFqgp+nZIhpiw5o/avCgspWJH+AW3IXlD6VYyQ2R1LQ/xJQ==
   dependencies:
     crypto "^1.0.1"
 
