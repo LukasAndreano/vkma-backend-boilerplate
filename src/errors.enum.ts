@@ -33,6 +33,11 @@ class Errors {
     errorCode: 6,
     message: 'notifications disabled',
   };
+
+  static readonly ONLY_IMAGES_ARE_ALLOWED = {
+    errorCode: 7,
+    message: 'only images are allowed',
+  };
 }
 
 export default Errors;
