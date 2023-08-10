@@ -54,7 +54,7 @@ export class ParamsService {
           notifications: notifications_from_app,
           avatar,
           updated_at: getCurrentTimestamp() + 86400,
-          joined_at: Math.floor(Date.now() / 1000),
+          joined_at: getCurrentTimestamp(),
         };
 
         const insertAction = await this.usersRepository
