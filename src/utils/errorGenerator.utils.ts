@@ -19,7 +19,7 @@ const errorGenerator = (errorCode: IErrorGenerator): IErrorGeneratorReturn => {
       status: false,
       ...errorCode,
     },
-    200,
+    process.env.FORCE_200_FOR_ERRORS === 'true' ? 200 : 400,
   );
 };
 

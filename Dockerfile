@@ -1,4 +1,4 @@
-FROM node:16
+FROM node:18
 
 ENV HOME /usr/src/app
 WORKDIR $HOME

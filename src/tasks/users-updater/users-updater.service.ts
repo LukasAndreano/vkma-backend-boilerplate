@@ -1,9 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { Cron } from '@nestjs/schedule';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from 'src/entities/users.entity';
 import { Repository } from 'typeorm';
 import { API } from 'vk-io';
+
+// Deprecated.
+// This service is no longer used.
 
 @Injectable()
 export class UsersUpdaterService {
@@ -12,9 +14,6 @@ export class UsersUpdaterService {
     private readonly usersRepository: Repository<Users>,
   ) {}
 
-  @Cron('0 * * * *', {
-    timeZone: 'Europe/Moscow',
-  })
   async handleCron() {
     const api = new API({
       token: process.env.APP_SECRET_TOKEN,

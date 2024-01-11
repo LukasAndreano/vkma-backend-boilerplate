@@ -11,7 +11,7 @@ export const imageFileFilter = (req, file, callback) => {
           status: false,
           ...Errors.ONLY_IMAGES_ARE_ALLOWED,
         },
-        200,
+        process.env.FORCE_200_FOR_ERRORS === 'true' ? 200 : 400,
       ),
       false,
     );

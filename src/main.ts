@@ -22,7 +22,7 @@ async function bootstrap() {
     basicAuth({
       challenge: true,
       users: {
-        devs: 'devs', // password for /docs and /docs-json
+        devs: process.env.DOCS_PASSWORD,
       },
     }),
   );

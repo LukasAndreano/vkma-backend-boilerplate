@@ -8,9 +8,11 @@ export class ParamsMiddleware implements NestMiddleware {
   constructor(private readonly paramsService: ParamsService) {}
 
   async use(req: any, res: any, next: () => void) {
+    const authorizationToken = req?.headers?.authorization?.slice(7) || '';
+
     if (
       !checkHash(
-        req?.headers?.authorization?.slice(7) || '',
+        authorizationToken,
         process.env.APP_SECRET_KEY,
         +process.env.AUTHORIZATION_LIFETIME || 0,
       )
@@ -21,17 +23,11 @@ export class ParamsMiddleware implements NestMiddleware {
         errorCode: 0,
       });
 
-    const user_id = +req.headers.authorization
-      .slice(7)
-      .split('vk_user_id=')[1]
-      .split('&')[0];
+    const user_id = +authorizationToken.split('vk_user_id=')[1].split('&')[0];
 
     const user: UserDataDto = await this.paramsService.getUser(user_id);
 
-    req.headers = {
-      ...req.headers,
-      user,
-    };
+    req.headers.user = user;
 
     next();
   }

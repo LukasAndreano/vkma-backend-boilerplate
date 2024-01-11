@@ -5,13 +5,15 @@ const findUpload = async (
   repository: Repository<Uploads>,
   id: number,
   select: string[] = ['*'],
-  user_id?: number,
+  user_id?: number | null,
 ) => {
   return await repository
     .createQueryBuilder('uploads')
     .select(select)
     .where('uploads.id = :id', { id })
-    .andWhere('uploads.uploaded_by = :user_id', { user_id })
+    .andWhere(`uploads.uploaded_by ${user_id ? '= :user_id' : 'IS NOT NULL'}`, {
+      user_id,
+    })
     .getRawOne();
 };
 
