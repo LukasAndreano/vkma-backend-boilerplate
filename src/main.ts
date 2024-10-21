@@ -34,9 +34,11 @@ async function bootstrap() {
     new ValidationPipe({
       transform: true,
       whitelist: true,
-      forbidNonWhitelisted: true,
+      forbidNonWhitelisted: false,
       transformOptions: { enableImplicitConversion: true },
-    }),
+      disableErrorMessages:
+        !process.env.npm_lifecycle_script.includes("--watch"),
+    })
   );
 
   await app.listen(process.env.PORT || 3000);
