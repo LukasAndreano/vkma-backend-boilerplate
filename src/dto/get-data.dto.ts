@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from "@nestjs/swagger";
 import {
   IsNumber,
   IsOptional,
@@ -6,11 +6,11 @@ import {
   Length,
   Max,
   Min,
-} from 'class-validator';
+} from "class-validator";
 
 export class GetDataDto {
   @ApiProperty({
-    description: 'Лимит',
+    description: "Лимит",
     example: 50,
     required: false,
   })
@@ -21,7 +21,7 @@ export class GetDataDto {
   limit?: number;
 
   @ApiProperty({
-    description: 'Отступ',
+    description: "Отступ",
     example: 10,
     required: false,
   })
@@ -31,8 +31,8 @@ export class GetDataDto {
   offset?: number;
 
   @ApiProperty({
-    description: 'Поисковый запрос',
-    example: 'Заметка',
+    description: "Поисковый запрос",
+    example: "Заметка",
     required: false,
   })
   @IsString()

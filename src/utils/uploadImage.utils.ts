@@ -1,10 +1,10 @@
-import compressFile from './compressFile.utils';
-import * as md5 from 'md5-file';
-import { Repository } from 'typeorm';
-import { Uploads } from 'src/entities/uploads.entity';
-import * as fs from 'fs';
-import getCurrentTimestamp from './getCurrentTimestamp.utils';
-import * as appRoot from 'app-root-path';
+import compressFile from "./compressFile.utils";
+import * as md5 from "md5-file";
+import { Repository } from "typeorm";
+import { Uploads } from "src/entities/uploads.entity";
+import * as fs from "fs";
+import getCurrentTimestamp from "./getCurrentTimestamp.utils";
+import * as appRoot from "app-root-path";
 
 interface ImageResponse {
   photo_id: number;
@@ -21,9 +21,9 @@ const uploadImage = async (
 
   // Checking if the file is already uploaded
   const findUpload = await uploadsRepository
-    .createQueryBuilder('uploads')
-    .select(['id', 'url'])
-    .andWhere('hash = :hash', { hash })
+    .createQueryBuilder("uploads")
+    .select(["id", "url"])
+    .andWhere("hash = :hash", { hash })
     .getRawOne();
 
   // If it is, we will return the id, url and the uploaded file will be deleted

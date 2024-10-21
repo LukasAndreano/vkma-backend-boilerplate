@@ -4,17 +4,20 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   JoinColumn,
-} from 'typeorm';
-import { Users } from './users.entity';
+} from "typeorm";
+import { Users } from "./users.entity";
 
-@Entity('uploads')
+@Entity("uploads")
 export class Uploads {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  @ManyToOne(() => Users, (user) => user.id)
-  @JoinColumn({ name: 'uploaded_by' })
+  @ManyToOne(
+    () => Users,
+    (user) => user.id,
+  )
+  @JoinColumn({ name: "uploaded_by" })
   uploaded_by: number;
 
   @Column({ length: 128 })

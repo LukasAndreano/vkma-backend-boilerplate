@@ -1,12 +1,12 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import axios from 'axios';
-import { UserDataDto } from 'src/dto/user-data.dto';
-import { Users } from 'src/entities/users.entity';
-import getCurrentTimestamp from 'src/utils/getCurrentTimestamp.utils';
-import { Repository } from 'typeorm';
-import { API } from 'vk-io';
-import { UsersGetResponse } from 'vk-io/lib/api/schemas/responses';
+import { Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import axios from "axios";
+import { UserDataDto } from "src/dto/user-data.dto";
+import { Users } from "src/entities/users.entity";
+import getCurrentTimestamp from "src/utils/getCurrentTimestamp.utils";
+import { Repository } from "typeorm";
+import { API } from "vk-io";
+import { UsersGetResponse } from "vk-io/lib/api/schemas/responses";
 
 @Injectable()
 export class ParamsService {
@@ -26,19 +26,19 @@ export class ParamsService {
     let avatar: string;
 
     let user = await this.usersRepository
-      .createQueryBuilder('users')
-      .select(['*'])
-      .where('users.user_id = :user_id', { user_id })
+      .createQueryBuilder("users")
+      .select(["*"])
+      .where("users.user_id = :user_id", { user_id })
       .getRawOne();
 
     if (!user || user.updated_at < getCurrentTimestamp()) {
       userInfo = await api.users.get({
         user_ids: [user_id],
-        fields: ['photo_200'],
-        lang: 'ru',
+        fields: ["photo_200"],
+        lang: "ru",
       });
 
-      name = userInfo[0].first_name + ' ' + userInfo[0].last_name;
+      name = userInfo[0].first_name + " " + userInfo[0].last_name;
       avatar = userInfo[0].photo_200;
 
       const notifications = await axios.get(
@@ -78,7 +78,7 @@ export class ParamsService {
             notifications: notifications_from_app,
             avatar,
           })
-          .where('user_id = :user_id', { user_id })
+          .where("user_id = :user_id", { user_id })
           .execute();
 
         user = {

@@ -1,17 +1,17 @@
-import { Uploads } from 'src/entities/uploads.entity';
-import { Repository } from 'typeorm';
+import { Uploads } from "src/entities/uploads.entity";
+import { Repository } from "typeorm";
 
 const findUpload = async (
   repository: Repository<Uploads>,
   id: number,
-  select: string[] = ['*'],
+  select: string[] = ["*"],
   user_id?: number | null,
 ) => {
   return await repository
-    .createQueryBuilder('uploads')
+    .createQueryBuilder("uploads")
     .select(select)
-    .where('uploads.id = :id', { id })
-    .andWhere(`uploads.uploaded_by ${user_id ? '= :user_id' : 'IS NOT NULL'}`, {
+    .where("uploads.id = :id", { id })
+    .andWhere(`uploads.uploaded_by ${user_id ? "= :user_id" : "IS NOT NULL"}`, {
       user_id,
     })
     .getRawOne();

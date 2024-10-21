@@ -6,23 +6,23 @@ import {
   UploadedFile,
   ParseFilePipeBuilder,
   HttpStatus,
-} from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { UploadsService } from './uploads.service';
-import { diskStorage } from 'multer';
-import { editFileName, imageFileFilter } from '../../utils/fileUpload.utils';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { UploadsData } from './dto/upload-data.dto';
-import { UserDataDto } from 'src/dto/user-data.dto';
+} from "@nestjs/common";
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { UploadsService } from "./uploads.service";
+import { diskStorage } from "multer";
+import { editFileName, imageFileFilter } from "../../utils/fileUpload.utils";
+import { FileInterceptor } from "@nestjs/platform-express";
+import { UploadsData } from "./dto/upload-data.dto";
+import { UserDataDto } from "src/dto/user-data.dto";
 
-@ApiTags('Загрузка изображений')
-@Controller('uploads')
+@ApiTags("Загрузка изображений")
+@Controller("uploads")
 export class UploadsController {
   constructor(private readonly uploadsService: UploadsService) {}
 
   @ApiOperation({
     summary:
-      'Загрузка фотографий на бэкенд. Принимаются форматы: jpg, jpeg, png, webp (до 20мб).',
+      "Загрузка фотографий на бэкенд. Принимаются форматы: jpg, jpeg, png, webp (до 20мб).",
   })
   @ApiResponse({
     status: 200,
@@ -30,16 +30,16 @@ export class UploadsController {
   })
   @Post()
   @UseInterceptors(
-    FileInterceptor('image', {
+    FileInterceptor("image", {
       storage: diskStorage({
-        destination: './files',
+        destination: "./files",
         filename: editFileName,
       }),
       fileFilter: imageFileFilter,
     }),
   )
   async upload(
-    @Headers('user') user: UserDataDto,
+    @Headers("user") user: UserDataDto,
     @UploadedFile(
       new ParseFilePipeBuilder()
         .addFileTypeValidator({

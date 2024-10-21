@@ -1,12 +1,12 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import axios from 'axios';
-import { UserDataDto } from 'src/dto/user-data.dto';
-import { Users } from 'src/entities/users.entity';
-import Errors from 'src/errors.enum';
-import errorGenerator from 'src/utils/errorGenerator.utils';
-import { Repository } from 'typeorm';
-import { ProfilePatchBody } from './dto/profile-body.dto';
+import { Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import axios from "axios";
+import { UserDataDto } from "src/dto/user-data.dto";
+import { Users } from "src/entities/users.entity";
+import Errors from "src/errors.enum";
+import errorGenerator from "src/utils/errorGenerator.utils";
+import { Repository } from "typeorm";
+import { ProfilePatchBody } from "./dto/profile-body.dto";
 
 @Injectable()
 export class ProfileService {
@@ -33,7 +33,7 @@ export class ProfileService {
         .createQueryBuilder()
         .update(Users)
         .set(body)
-        .where('id = :id', { id: user.id })
+        .where("id = :id", { id: user.id })
         .execute();
 
     return true;

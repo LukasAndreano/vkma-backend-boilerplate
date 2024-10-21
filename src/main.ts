@@ -1,24 +1,24 @@
-import { ValidationPipe } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { AppModule } from './app.module';
-import { NestExpressApplication } from '@nestjs/platform-express';
-import * as basicAuth from 'express-basic-auth';
+import { ValidationPipe } from "@nestjs/common";
+import { NestFactory } from "@nestjs/core";
+import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import { AppModule } from "./app.module";
+import { NestExpressApplication } from "@nestjs/platform-express";
+import * as basicAuth from "express-basic-auth";
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     cors: true,
   });
 
-  app.set('trust proxy', 1);
+  app.set("trust proxy", 1);
 
   const config = new DocumentBuilder()
-    .setTitle('Документация по API')
-    .setVersion('1.0')
+    .setTitle("Документация по API")
+    .setVersion("1.0")
     .build();
 
   app.use(
-    ['/docs', '/docs-json'],
+    ["/docs", "/docs-json"],
     basicAuth({
       challenge: true,
       users: {
@@ -28,7 +28,7 @@ async function bootstrap() {
   );
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('docs', app, document);
+  SwaggerModule.setup("docs", app, document);
 
   app.useGlobalPipes(
     new ValidationPipe({

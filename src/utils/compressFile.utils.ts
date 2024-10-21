@@ -1,5 +1,5 @@
-import * as sharp from 'sharp';
-import * as fs from 'fs';
+import * as sharp from "sharp";
+import * as fs from "fs";
 
 const compressFile = async (path: string): Promise<Buffer> => {
   // Compress original image

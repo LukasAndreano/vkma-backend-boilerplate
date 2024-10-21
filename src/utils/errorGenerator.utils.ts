@@ -1,4 +1,4 @@
-import { HttpException } from '@nestjs/common';
+import { HttpException } from "@nestjs/common";
 
 interface IErrorGenerator {
   errorCode: number;
@@ -19,7 +19,7 @@ const errorGenerator = (errorCode: IErrorGenerator): IErrorGeneratorReturn => {
       status: false,
       ...errorCode,
     },
-    process.env.FORCE_200_FOR_ERRORS === 'true' ? 200 : 400,
+    process.env.FORCE_200_FOR_ERRORS === "true" ? 200 : 400,
   );
 };
 

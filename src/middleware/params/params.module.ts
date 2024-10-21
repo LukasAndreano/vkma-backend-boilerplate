@@ -1,8 +1,8 @@
-import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { Module } from "@nestjs/common";
+import { TypeOrmModule } from "@nestjs/typeorm";
 
-import { Users } from 'src/entities/users.entity';
-import { ParamsService } from './params.service';
+import { Users } from "src/entities/users.entity";
+import { ParamsService } from "./params.service";
 
 @Module({
   providers: [ParamsService],

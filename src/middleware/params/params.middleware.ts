@@ -1,14 +1,14 @@
-import { Injectable, NestMiddleware } from '@nestjs/common';
-import { ParamsService } from './params.service';
-import checkHash from 'vkminiapps-params-checker';
-import { UserDataDto } from 'src/dto/user-data.dto';
+import { Injectable, NestMiddleware } from "@nestjs/common";
+import { ParamsService } from "./params.service";
+import checkHash from "vkminiapps-params-checker";
+import { UserDataDto } from "src/dto/user-data.dto";
 
 @Injectable()
 export class ParamsMiddleware implements NestMiddleware {
   constructor(private readonly paramsService: ParamsService) {}
 
   async use(req: any, res: any, next: () => void) {
-    const authorizationToken = req?.headers?.authorization?.slice(7) || '';
+    const authorizationToken = req?.headers?.authorization?.slice(7) || "";
 
     if (
       !checkHash(
@@ -23,7 +23,7 @@ export class ParamsMiddleware implements NestMiddleware {
         errorCode: 0,
       });
 
-    const user_id = +authorizationToken.split('vk_user_id=')[1].split('&')[0];
+    const user_id = +authorizationToken.split("vk_user_id=")[1].split("&")[0];
 
     const user: UserDataDto = await this.paramsService.getUser(user_id);
 

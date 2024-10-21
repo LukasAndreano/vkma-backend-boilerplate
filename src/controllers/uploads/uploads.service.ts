@@ -1,11 +1,11 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Uploads } from '../../entities/uploads.entity';
-import uploadImage from '../../utils/uploadImage.utils';
-import { Repository } from 'typeorm';
-import { UploadsData } from './dto/upload-data.dto';
-import * as appRoot from 'app-root-path';
-import { UserDataDto } from 'src/dto/user-data.dto';
+import { Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Uploads } from "../../entities/uploads.entity";
+import uploadImage from "../../utils/uploadImage.utils";
+import { Repository } from "typeorm";
+import { UploadsData } from "./dto/upload-data.dto";
+import * as appRoot from "app-root-path";
+import { UserDataDto } from "src/dto/user-data.dto";
 
 @Injectable()
 export class UploadsService {

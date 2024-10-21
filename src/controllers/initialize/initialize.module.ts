@@ -1,6 +1,6 @@
-import { Module } from '@nestjs/common';
-import { InitializeController } from './initialize.controller';
-import { InitializeService } from './initialize.service';
+import { Module } from "@nestjs/common";
+import { InitializeController } from "./initialize.controller";
+import { InitializeService } from "./initialize.service";
 
 @Module({
   controllers: [InitializeController],

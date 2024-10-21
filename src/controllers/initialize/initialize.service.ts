@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
-import { UserDataDto } from 'src/dto/user-data.dto';
-import { InitializeData } from './dto/initialize-data.dto';
+import { Injectable } from "@nestjs/common";
+import { UserDataDto } from "src/dto/user-data.dto";
+import { InitializeData } from "./dto/initialize-data.dto";
 
 @Injectable()
 export class InitializeService {
