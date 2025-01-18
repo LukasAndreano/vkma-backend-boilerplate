@@ -9,19 +9,19 @@ import { UserDataDto } from "src/dto/user-data.dto";
 
 @Injectable()
 export class UploadsService {
-  constructor(
-    @InjectRepository(Uploads)
-    private readonly uploadsRepository: Repository<Uploads>,
-  ) {}
+	constructor(
+		@InjectRepository(Uploads)
+		private readonly uploadsRepository: Repository<Uploads>,
+	) {}
 
-  async upload(
-    user: UserDataDto,
-    file: Express.Multer.File,
-  ): Promise<UploadsData> {
-    return await uploadImage(
-      user.id,
-      `${appRoot}/${file.path}`,
-      this.uploadsRepository,
-    );
-  }
+	async upload(
+		user: UserDataDto,
+		file: Express.Multer.File,
+	): Promise<UploadsData> {
+		return await uploadImage(
+			user.id,
+			`${appRoot}/${file.path}`,
+			this.uploadsRepository,
+		);
+	}
 }

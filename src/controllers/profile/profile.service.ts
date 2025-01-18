@@ -10,32 +10,32 @@ import { ProfilePatchBody } from "./dto/profile-body.dto";
 
 @Injectable()
 export class ProfileService {
-  constructor(
-    @InjectRepository(Users)
-    private readonly usersRepository: Repository<Users>,
-  ) {}
+	constructor(
+		@InjectRepository(Users)
+		private readonly usersRepository: Repository<Users>,
+	) {}
 
-  async updateProfile(
-    user: UserDataDto,
-    body: ProfilePatchBody,
-  ): Promise<boolean> {
-    if (body.notifications) {
-      const notifications = await axios.get(
-        `https://api.vk.com/method/apps.isNotificationsAllowed?user_id=${user.user_id}&access_token=${process.env.APP_TOKEN}&v=5.201`,
-      );
+	async updateProfile(
+		user: UserDataDto,
+		body: ProfilePatchBody,
+	): Promise<boolean> {
+		if (body.notifications) {
+			const notifications = await axios.get(
+				`https://api.vk.com/method/apps.isNotificationsAllowed?user_id=${user.user_id}&access_token=${process.env.APP_TOKEN}&v=5.201`,
+			);
 
-      if (!notifications.data.response.is_allowed)
-        errorGenerator(Errors.NOTIFICATIONS_DISABLED);
-    }
+			if (!notifications.data.response.is_allowed)
+				errorGenerator(Errors.NOTIFICATIONS_DISABLED);
+		}
 
-    if (Object.keys(body))
-      await this.usersRepository
-        .createQueryBuilder()
-        .update(Users)
-        .set(body)
-        .where("id = :id", { id: user.id })
-        .execute();
+		if (Object.keys(body))
+			await this.usersRepository
+				.createQueryBuilder()
+				.update(Users)
+				.set(body)
+				.where("id = :id", { id: user.id })
+				.execute();
 
-    return true;
-  }
+		return true;
+	}
 }

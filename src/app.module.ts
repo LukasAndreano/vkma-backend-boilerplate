@@ -1,6 +1,11 @@
-import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
+import {
+	MiddlewareConsumer,
+	Module,
+	NestModule,
+	RequestMethod,
+} from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-import { APP_INTERCEPTOR } from "@nestjs/core";
+import { APP_FILTER, APP_INTERCEPTOR } from "@nestjs/core";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ResInterceptor } from "./interceptors/res.interceptor";
 import { ParamsMiddleware } from "./middleware/params/params.middleware";
@@ -11,6 +16,7 @@ import { join } from "node:path";
 import { InitializeModule } from "./controllers/initialize/initialize.module";
 import { ProfileModule } from "./controllers/profile/profile.module";
 import { TasksModule } from "./tasks/tasks.module";
+import { NotFoundInterceptor } from "./interceptors/notFound.interceptor";
 
 @Module({
 	imports: [
@@ -20,6 +26,7 @@ import { TasksModule } from "./tasks/tasks.module";
 		}),
 		ServeStaticModule.forRoot({
 			rootPath: join(__dirname, "..", "static"),
+			renderPath: "*name",
 			serveRoot: "/static",
 		}),
 		TypeOrmModule.forRoot({
@@ -34,7 +41,7 @@ import { TasksModule } from "./tasks/tasks.module";
 			password: process.env.DB_PASSWORD,
 			database: process.env.DB_NAME,
 			entities: [`${__dirname}/entities/*.entity.{js,ts}`],
-			synchronize: true,
+			synchronize: process.env.NODE_ENV === "dev",
 			cache: false,
 		}),
 		StartParamsModule,
@@ -48,10 +55,20 @@ import { TasksModule } from "./tasks/tasks.module";
 			provide: APP_INTERCEPTOR,
 			useClass: ResInterceptor,
 		},
+		{
+			provide: APP_FILTER,
+			useClass: NotFoundInterceptor,
+		},
 	],
 })
 export class AppModule implements NestModule {
 	configure(consumer: MiddlewareConsumer) {
-		consumer.apply(ParamsMiddleware).exclude("static/(.*)?").forRoutes("*");
+		consumer
+			.apply(ParamsMiddleware)
+			.exclude({
+				path: "static/*path",
+				method: RequestMethod.GET,
+			})
+			.forRoutes("*");
 	}
 }
