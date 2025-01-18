@@ -4,7 +4,7 @@ import { Uploads } from "../../entities/uploads.entity";
 import uploadImage from "../../utils/uploadImage.utils";
 import { Repository } from "typeorm";
 import { UploadsData } from "./dto/upload-data.dto";
-import * as appRoot from "app-root-path";
+import appRoot from "app-root-path";
 import { UserDataDto } from "src/dto/user-data.dto";
 
 @Injectable()
@@ -20,7 +20,7 @@ export class UploadsService {
 	): Promise<UploadsData> {
 		return await uploadImage(
 			user.id,
-			`${appRoot}/${file.path}`,
+			`${appRoot.path}/${file.path}`,
 			this.uploadsRepository,
 		);
 	}

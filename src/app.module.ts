@@ -16,7 +16,7 @@ import { join } from "node:path";
 import { InitializeModule } from "./controllers/initialize/initialize.module";
 import { ProfileModule } from "./controllers/profile/profile.module";
 import { TasksModule } from "./tasks/tasks.module";
-import { NotFoundInterceptor } from "./interceptors/notFound.interceptor";
+import { UploadsModule } from "./controllers/uploads/uploads.module";
 
 @Module({
 	imports: [
@@ -48,16 +48,13 @@ import { NotFoundInterceptor } from "./interceptors/notFound.interceptor";
 		InitializeModule,
 		ProfileModule,
 		TasksModule,
+		UploadsModule,
 	],
 	controllers: [],
 	providers: [
 		{
 			provide: APP_INTERCEPTOR,
 			useClass: ResInterceptor,
-		},
-		{
-			provide: APP_FILTER,
-			useClass: NotFoundInterceptor,
 		},
 	],
 })

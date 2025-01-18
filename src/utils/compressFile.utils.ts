@@ -1,4 +1,4 @@
-import * as sharp from "sharp";
+import sharp from "sharp";
 import * as fs from "node:fs";
 
 const compressFile = async (path: string): Promise<Buffer> => {

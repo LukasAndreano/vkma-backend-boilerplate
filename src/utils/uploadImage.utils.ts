@@ -1,10 +1,10 @@
 import compressFile from "./compressFile.utils";
-import * as md5 from "md5-file";
+import md5 from "md5-file";
 import { Repository } from "typeorm";
 import { Uploads } from "src/entities/uploads.entity";
 import * as fs from "node:fs";
 import getCurrentTimestamp from "./getCurrentTimestamp.utils";
-import * as appRoot from "app-root-path";
+import appRoot from "app-root-path";
 
 interface ImageResponse {
 	photo_id: number;
@@ -46,7 +46,7 @@ const uploadImage = async (
 		original: `${hash}.png`,
 	};
 
-	fs.writeFileSync(`${appRoot}/static/${filenames.original}`, compressed);
+	fs.writeFileSync(`${appRoot.path}/static/${filenames.original}`, compressed);
 
 	// Inserting the upload into the database
 	const url = `${process.env.FILES_PATH}/${filenames.original}`;
