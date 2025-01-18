@@ -3,7 +3,7 @@ import { InitializeController } from "./initialize.controller";
 import { InitializeService } from "./initialize.service";
 
 @Module({
-  controllers: [InitializeController],
-  providers: [InitializeService],
+	controllers: [InitializeController],
+	providers: [InitializeService],
 })
 export class InitializeModule {}
