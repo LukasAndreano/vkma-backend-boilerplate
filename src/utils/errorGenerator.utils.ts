@@ -3,8 +3,6 @@ import { HttpException } from "@nestjs/common";
 interface IErrorGenerator {
 	errorCode: number;
 	message: string;
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	data?: any;
 }
 
 interface IErrorGeneratorReturn {
@@ -19,7 +17,7 @@ const errorGenerator = (errorCode: IErrorGenerator): IErrorGeneratorReturn => {
 			status: false,
 			...errorCode,
 		},
-		process.env.FORCE_200_FOR_ERRORS === "true" ? 200 : 400,
+		400,
 	);
 };
 

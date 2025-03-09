@@ -2,10 +2,8 @@ import sharp from "sharp";
 import * as fs from "node:fs";
 
 const compressFile = async (path: string): Promise<Buffer> => {
-	// Compress original image
 	const original: Buffer = await sharp(path).png({ quality: 80 }).toBuffer();
 
-	// Remove original image
 	fs.rmSync(path, {
 		force: true,
 	});

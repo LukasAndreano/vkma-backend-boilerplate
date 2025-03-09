@@ -5,18 +5,16 @@ import {
 	RequestMethod,
 } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-import { APP_FILTER, APP_INTERCEPTOR } from "@nestjs/core";
+import { APP_GUARD, APP_INTERCEPTOR } from "@nestjs/core";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ResInterceptor } from "./interceptors/res.interceptor";
 import { ParamsMiddleware } from "./middleware/params/params.middleware";
 import { StartParamsModule } from "./middleware/params/params.module";
 import { ScheduleModule } from "@nestjs/schedule";
-import { ServeStaticModule } from "@nestjs/serve-static";
-import { join } from "node:path";
 import { InitializeModule } from "./controllers/initialize/initialize.module";
-import { ProfileModule } from "./controllers/profile/profile.module";
 import { TasksModule } from "./tasks/tasks.module";
 import { UploadsModule } from "./controllers/uploads/uploads.module";
+import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
 
 @Module({
 	imports: [
@@ -24,11 +22,12 @@ import { UploadsModule } from "./controllers/uploads/uploads.module";
 		ConfigModule.forRoot({
 			envFilePath: ".env",
 		}),
-		ServeStaticModule.forRoot({
-			rootPath: join(__dirname, "..", "static"),
-			renderPath: "*name",
-			serveRoot: "/static",
-		}),
+		ThrottlerModule.forRoot([
+			{
+				ttl: 60,
+				limit: 20,
+			},
+		]),
 		TypeOrmModule.forRoot({
 			type: "mysql",
 			extra: {
@@ -46,12 +45,15 @@ import { UploadsModule } from "./controllers/uploads/uploads.module";
 		}),
 		StartParamsModule,
 		InitializeModule,
-		ProfileModule,
 		TasksModule,
 		UploadsModule,
 	],
 	controllers: [],
 	providers: [
+		{
+			provide: APP_GUARD,
+			useClass: ThrottlerGuard,
+		},
 		{
 			provide: APP_INTERCEPTOR,
 			useClass: ResInterceptor,
@@ -62,10 +64,10 @@ export class AppModule implements NestModule {
 	configure(consumer: MiddlewareConsumer) {
 		consumer
 			.apply(ParamsMiddleware)
-			.exclude({
-				path: "static/*path",
-				method: RequestMethod.GET,
-			})
+			.exclude(
+				{ path: "static/{*path}", method: RequestMethod.GET },
+				{ path: "docs{*path}", method: RequestMethod.GET },
+			)
 			.forRoutes("*");
 	}
 }

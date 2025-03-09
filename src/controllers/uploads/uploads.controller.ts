@@ -1,19 +1,16 @@
+import { Controller, Post, Headers, Req } from "@nestjs/common";
 import {
-	Controller,
-	Post,
-	Headers,
-	UseInterceptors,
-	UploadedFile,
-	ParseFilePipeBuilder,
-	HttpStatus,
-} from "@nestjs/common";
-import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+	ApiBody,
+	ApiConsumes,
+	ApiOperation,
+	ApiResponse,
+	ApiTags,
+} from "@nestjs/swagger";
 import { UploadsService } from "./uploads.service";
-import { diskStorage } from "multer";
-import { editFileName, imageFileFilter } from "../../utils/fileUpload.utils";
-import { FileInterceptor } from "@nestjs/platform-express";
 import { UploadsData } from "./dto/upload-data.dto";
 import { UserDataDto } from "src/dto/user-data.dto";
+import { FastifyRequest } from "fastify";
+import { Throttle } from "@nestjs/throttler";
 
 @ApiTags("Загрузка изображений")
 @Controller("uploads")
@@ -28,32 +25,13 @@ export class UploadsController {
 		status: 200,
 		type: UploadsData,
 	})
+	@ApiConsumes("multipart/form-data")
 	@Post()
-	@UseInterceptors(
-		FileInterceptor("file", {
-			storage: diskStorage({
-				destination: "./files",
-				filename: editFileName,
-			}),
-			fileFilter: imageFileFilter,
-		}),
-	)
+	@Throttle({ default: { limit: 1, ttl: 3 } })
 	async upload(
-		@Headers("user-data") user: UserDataDto,
-		@UploadedFile(
-			new ParseFilePipeBuilder()
-				.addFileTypeValidator({
-					fileType: /(jpg|jpeg|png|webp)$/,
-				})
-				.addMaxSizeValidator({
-					maxSize: 1000 * 1000 * 20,
-				})
-				.build({
-					errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
-				}),
-		)
-		file: Express.Multer.File,
+		@Headers() headers: { userData: UserDataDto },
+		@Req() req: FastifyRequest,
 	): Promise<UploadsData> {
-		return this.uploadsService.upload(user, file);
+		return this.uploadsService.upload(headers.userData, req);
 	}
 }

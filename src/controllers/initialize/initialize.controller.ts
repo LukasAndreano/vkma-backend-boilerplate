@@ -3,6 +3,7 @@ import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { UserDataDto } from "src/dto/user-data.dto";
 import { InitializeData } from "./dto/initialize-data.dto";
 import { InitializeService } from "./initialize.service";
+import { Throttle } from "@nestjs/throttler";
 
 @ApiTags("Модуль инициализации (первый запрос)")
 @Controller("initialize")
@@ -17,9 +18,10 @@ export class InitializeController {
 		status: 200,
 		type: InitializeData,
 	})
+	@Throttle({ default: { limit: 1, ttl: 3 } })
 	async initialize(
-		@Headers("user-data") user: UserDataDto,
+		@Headers() headers: { userData: UserDataDto },
 	): Promise<InitializeData> {
-		return await this.initializeService.initialize(user);
+		return await this.initializeService.initialize(headers.userData);
 	}
 }

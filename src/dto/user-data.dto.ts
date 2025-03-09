@@ -27,12 +27,6 @@ export class UserDataDto {
 	avatar: string;
 
 	@ApiProperty({
-		description: "Признак получения уведомлений от приложения",
-		example: false,
-	})
-	notifications: boolean;
-
-	@ApiProperty({
 		description: "Дата последнего обновления данных пользователя (timestamp)",
 		example: 1610000000,
 	})

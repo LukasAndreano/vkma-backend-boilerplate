@@ -5,11 +5,11 @@ export class UploadsData {
 		description: "Идентификатор обложки",
 		example: 1,
 	})
-	readonly photo_id: number;
+	photo_id: number;
 
 	@ApiProperty({
 		description: "Адрес обложки",
 		example: "http://localhost:3000/static/...",
 	})
-	readonly url: string;
+	url: string;
 }

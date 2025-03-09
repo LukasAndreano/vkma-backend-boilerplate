@@ -1,13 +1,15 @@
 FROM node:22
 
 ENV HOME /usr/src/app
+
 WORKDIR $HOME
 
 COPY package*.json ./
-RUN npm i --force
+
+RUN yarn install --force
 
 COPY . .
 
-RUN npm run build
+RUN yarn build
 
-CMD ["npm", "start"]
+CMD ["yarn", "start"]

@@ -18,9 +18,6 @@ export class ResInterceptor<T> implements NestInterceptor<T, Response<T>> {
 		context: ExecutionContext,
 		next: CallHandler,
 	): Observable<Response<T>> {
-		if (context.switchToHttp().getRequest().url.includes("/external/callback"))
-			return next.handle();
-
 		return next.handle().pipe(
 			map((data) => ({
 				status: true,

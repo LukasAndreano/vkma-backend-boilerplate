@@ -14,12 +14,6 @@ export class Users {
 	@Column({ length: 512 })
 	avatar: string;
 
-	@Column({ default: true })
-	onboarding: boolean;
-
-	@Column({ default: false })
-	notifications: boolean;
-
 	@Column()
 	updated_at: number;
 

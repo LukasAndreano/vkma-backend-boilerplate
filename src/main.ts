@@ -2,47 +2,93 @@ import { ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { AppModule } from "./app.module";
-import { NestExpressApplication } from "@nestjs/platform-express";
-import basicAuth from "express-basic-auth";
-import { HttpExceptionFilter } from "./filters/http-exception.filter";
+import {
+	FastifyAdapter,
+	NestFastifyApplication,
+} from "@nestjs/platform-fastify";
+import multipart from "@fastify/multipart";
+import fastifyStatic from "@fastify/static";
+import { join } from "node:path";
 
 async function bootstrap() {
-	const app = await NestFactory.create<NestExpressApplication>(AppModule, {
-		cors: true,
+	const fastifyAdapter = new FastifyAdapter({
+		trustProxy: true,
 	});
 
-	app.useGlobalFilters(new HttpExceptionFilter());
+	fastifyAdapter.enableCors({
+		credentials: true,
+		origin: ["*"],
+	});
 
-	app.set("trust proxy", 1);
+	const app = await NestFactory.create<NestFastifyApplication>(
+		AppModule,
+		fastifyAdapter,
+	);
+
+	await app.register(multipart, {
+		limits: {
+			fileSize: 1000 * 1000 * 20,
+		},
+	});
 
 	const config = new DocumentBuilder()
 		.setTitle("Документация по API")
 		.setVersion("1.0")
+		.addBearerAuth()
 		.build();
 
-	app.use(
-		["/docs", "/docs-json"],
-		basicAuth({
-			challenge: true,
-			users: {
-				devs: process.env.DOCS_PASSWORD,
-			},
-		}),
-	);
+	const fastifyInstance = app.getHttpAdapter().getInstance();
+
+	await fastifyInstance.register(fastifyStatic, {
+		root: join(__dirname, "..", "static"),
+		prefix: "/static/",
+	});
+
+	fastifyInstance.addHook("onRequest", async (request, reply) => {
+		if (request.raw.url.startsWith("/docs")) {
+			const authHeader = request.headers.authorization;
+
+			if (!authHeader) {
+				reply.header("WWW-Authenticate", "Basic");
+
+				reply.code(401).send("Authentication required");
+
+				return;
+			}
+
+			const base64Credentials = authHeader.split(" ")[1];
+
+			const credentials = Buffer.from(base64Credentials, "base64")
+				.toString("ascii")
+				.split(":");
+
+			const [username, password] = credentials;
+
+			if (username !== "devs" || password !== process.env.DOCS_PASSWORD) {
+				reply.header("WWW-Authenticate", "Basic");
+
+				reply.code(401).send("Invalid credentials");
+
+				return;
+			}
+		}
+	});
 
 	const document = SwaggerModule.createDocument(app, config);
-	SwaggerModule.setup("docs", app, document);
+
+	SwaggerModule.setup("docs", app, document, {
+		customSiteTitle: "API Documentation",
+	});
 
 	app.useGlobalPipes(
 		new ValidationPipe({
 			transform: true,
 			whitelist: true,
-			forbidNonWhitelisted: false,
+			forbidNonWhitelisted: true,
 			transformOptions: { enableImplicitConversion: true },
-			disableErrorMessages: process.env.NODE_ENV !== "dev",
 		}),
 	);
 
-	await app.listen(process.env.PORT || 3000);
+	await app.listen(process.env.PORT || 3000, "0.0.0.0");
 }
 bootstrap();

@@ -1,6 +1,5 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import axios from "axios";
 import { UserDataDto } from "src/dto/user-data.dto";
 import { Users } from "src/entities/users.entity";
 import getCurrentTimestamp from "src/utils/getCurrentTimestamp.utils";
@@ -41,17 +40,10 @@ export class ParamsService {
 			name = `${userInfo[0].first_name} ${userInfo[0].last_name}`;
 			avatar = userInfo[0].photo_200;
 
-			const notifications = await axios.get(
-				`https://api.vk.com/method/apps.isNotificationsAllowed?user_id=${user_id}&access_token=${process.env.APP_TOKEN}&v=5.201`,
-			);
-
-			const notifications_from_app = notifications.data.response.is_allowed;
-
 			if (!user) {
 				const values = {
 					user_id,
 					name,
-					notifications: notifications_from_app,
 					avatar,
 					updated_at: getCurrentTimestamp() + 86400,
 					joined_at: getCurrentTimestamp(),
@@ -75,7 +67,6 @@ export class ParamsService {
 					.set({
 						updated_at: getCurrentTimestamp() + 86400,
 						name,
-						notifications: notifications_from_app,
 						avatar,
 					})
 					.where("user_id = :user_id", { user_id })

@@ -9,7 +9,6 @@ export class InitializeService {
 			id: user.id,
 			name: user.name,
 			avatar: user.avatar,
-			notifications: user.notifications,
 		};
 	}
 }
