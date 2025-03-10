@@ -1,6 +1,13 @@
 import getCurrentTimestamp from "src/utils/getCurrentTimestamp.utils";
-import { Entity, Column, PrimaryGeneratedColumn, BeforeInsert } from "typeorm";
+import {
+	Entity,
+	Column,
+	PrimaryGeneratedColumn,
+	BeforeInsert,
+	Index,
+} from "typeorm";
 
+@Index("user_id_idx", ["user_id"])
 @Entity("users")
 export class Users {
 	@PrimaryGeneratedColumn()

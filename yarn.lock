@@ -1652,11 +1652,6 @@ cross-spawn@^7.0.3, cross-spawn@^7.0.6:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
-crypto@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/crypto/-/crypto-1.0.1.tgz#2af1b7cad8175d24c8a1b0778255794a21803037"
-  integrity sha512-VxBKmeNcqQdiUQUW2Tzq0t377b54N2bMtXO/qiLa+6eRRmmC4qT3D4OnTGoT/U6O9aklQ/jTwbOtRMTTY8G0Ig==
-
 dayjs@^1.11.9:
   version "1.11.13"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.13.tgz#92430b0139055c3ebb60150aa13e860a4b5a366c"
@@ -3720,12 +3715,10 @@ validator@^13.9.0:
   resolved "https://registry.yarnpkg.com/validator/-/validator-13.12.0.tgz#7d78e76ba85504da3fee4fd1922b385914d4b35f"
   integrity sha512-c1Q0mCiPlgdTVVVIJIrBuxNicYE+t/7oKeI9MWLj3fh/uq2Pxh/3eeWbVZ4OcGW1TUf53At0njHw5SMdA3tmMg==
 
-vkminiapps-params-checker@^1.0.11:
-  version "1.0.11"
-  resolved "https://registry.yarnpkg.com/vkminiapps-params-checker/-/vkminiapps-params-checker-1.0.11.tgz#71397d7548a80984838816bae893ae8fc09b921f"
-  integrity sha512-fxPqBAHGfS9X+5EY3Qs0H5kVuxs9fGPrV6/TNHZgFqgp+nZIhpiw5o/avCgspWJH+AW3IXlD6VYyQ2R1LQ/xJQ==
-  dependencies:
-    crypto "^1.0.1"
+vkminiapps-params-checker@^1.0.13:
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/vkminiapps-params-checker/-/vkminiapps-params-checker-1.0.13.tgz#1e6c6cc156862a75dffa158a3406559f4152be60"
+  integrity sha512-Rhd/67ktzasWa5LncyVVnFvFc2jVgDqD3CrS0gXO2/XCRADbyON6MTUOG4Edkt47uDH9aW8qVflKhpR84cRerQ==
 
 watchpack@^2.4.1:
   version "2.4.2"

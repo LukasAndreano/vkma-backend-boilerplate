@@ -12,28 +12,20 @@ export class ParamsService {
 	) {}
 
 	async getUser(user_id: number): Promise<UserDataDto> {
-		let user = await this.usersRepository
-			.createQueryBuilder("users")
-			.select(["*"])
-			.where("users.user_id = :user_id", { user_id })
-			.getRawOne();
+		let user = await this.usersRepository.findOne({ where: { user_id } });
 
 		if (!user) {
 			const values = {
 				user_id,
 			};
 
-			const insertAction = await this.usersRepository
-				.createQueryBuilder()
-				.insert()
-				.into(Users)
-				.values(values)
-				.execute();
+			const newUser = this.usersRepository.create(values);
 
-			user = {
-				...values,
-				id: insertAction.identifiers[0].id,
-			};
+			newUser.setJoinedAt();
+
+			const insertAction = await this.usersRepository.save(newUser);
+
+			user = insertAction;
 		}
 
 		return user;

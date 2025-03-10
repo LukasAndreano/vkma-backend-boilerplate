@@ -1,6 +1,6 @@
 {
 	"name": "backend-boilerplate",
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"description": "Start boilerplate to create VKMA Backend",
 	"author": "Nikita Balin <n.balin@koka.team>",
 	"private": false,
@@ -33,7 +33,7 @@
 		"rxjs": "^7.8.2",
 		"sharp": "^0.33.5",
 		"typeorm": "^0.3.21",
-		"vkminiapps-params-checker": "^1.0.11"
+		"vkminiapps-params-checker": "^1.0.13"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",

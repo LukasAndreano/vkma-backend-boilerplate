@@ -19,7 +19,7 @@ export class ParamsMiddleware implements NestMiddleware {
 	async use(req: RequestWithUser, _, next: () => void) {
 		const authorizationToken = req.headers.authorization?.slice(7) || "";
 
-		if (!checkHash(authorizationToken, process.env.APP_SECRET_KEY, 0))
+		if (!checkHash(authorizationToken, process.env.APP_SECRET_KEY))
 			errorGenerator(Errors.ACCESS_DENIED);
 
 		const user_id = +authorizationToken.split("vk_user_id=")[1].split("&")[0];

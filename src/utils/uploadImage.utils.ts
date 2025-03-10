@@ -18,11 +18,10 @@ const uploadImage = async (
 	try {
 		const hash: string = await md5(path);
 
-		const existingUpload = await uploadsRepository
-			.createQueryBuilder("uploads")
-			.select(["id", "url"])
-			.where("hash = :hash", { hash })
-			.getRawOne();
+		const existingUpload = await uploadsRepository.findOne({
+			select: ["id", "url"],
+			where: { hash },
+		});
 
 		if (existingUpload) {
 			fs.rmSync(path, { force: true });
@@ -41,17 +40,19 @@ const uploadImage = async (
 
 		fs.writeFileSync(filePath, compressedBuffer);
 
-		const fileUrl = `/static/${filename}`;
-
-		const insertResult = await uploadsRepository.insert({
+		const newUpload = uploadsRepository.create({
 			uploaded_by: user_id,
 			hash,
-			url: fileUrl,
+			url: `/static/${filename}`,
 		});
 
+		newUpload.setUploadedAt();
+
+		const insertResult = await uploadsRepository.save(newUpload);
+
 		return {
-			photo_id: insertResult.identifiers[0].id,
-			url: fileUrl,
+			photo_id: insertResult.id,
+			url: insertResult.url,
 		};
 	} catch (error) {
 		console.error("Ошибка при загрузке изображения:", error);

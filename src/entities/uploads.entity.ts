@@ -5,10 +5,12 @@ import {
 	ManyToOne,
 	JoinColumn,
 	BeforeInsert,
+	Index,
 } from "typeorm";
 import { Users } from "./users.entity";
 import getCurrentTimestamp from "src/utils/getCurrentTimestamp.utils";
 
+@Index("hash_idx", ["hash"])
 @Entity("uploads")
 export class Uploads {
 	@PrimaryGeneratedColumn()
