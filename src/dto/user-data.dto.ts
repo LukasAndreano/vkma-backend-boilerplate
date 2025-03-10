@@ -27,12 +27,6 @@ export class UserDataDto {
 	avatar: string;
 
 	@ApiProperty({
-		description: "Дата последнего обновления данных пользователя (timestamp)",
-		example: 1610000000,
-	})
-	updated_at: number;
-
-	@ApiProperty({
 		description: "Дата регистрации пользователя (timestamp)",
 		example: 1610000000,
 	})

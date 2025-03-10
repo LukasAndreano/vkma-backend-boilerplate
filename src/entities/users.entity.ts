@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import getCurrentTimestamp from "src/utils/getCurrentTimestamp.utils";
+import { Entity, Column, PrimaryGeneratedColumn, BeforeInsert } from "typeorm";
 
 @Entity("users")
 export class Users {
@@ -15,8 +16,10 @@ export class Users {
 	avatar: string;
 
 	@Column()
-	updated_at: number;
-
-	@Column()
 	joined_at: number;
+
+	@BeforeInsert()
+	setJoinedAt() {
+		this.joined_at = getCurrentTimestamp();
+	}
 }

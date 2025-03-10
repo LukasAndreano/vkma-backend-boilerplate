@@ -45,8 +45,6 @@ export class ParamsService {
 					user_id,
 					name,
 					avatar,
-					updated_at: getCurrentTimestamp() + 86400,
-					joined_at: getCurrentTimestamp(),
 				};
 
 				const insertAction = await this.usersRepository
@@ -65,7 +63,6 @@ export class ParamsService {
 					.createQueryBuilder()
 					.update(Users)
 					.set({
-						updated_at: getCurrentTimestamp() + 86400,
 						name,
 						avatar,
 					})

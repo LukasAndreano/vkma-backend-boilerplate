@@ -4,8 +4,10 @@ import {
 	PrimaryGeneratedColumn,
 	ManyToOne,
 	JoinColumn,
+	BeforeInsert,
 } from "typeorm";
 import { Users } from "./users.entity";
+import getCurrentTimestamp from "src/utils/getCurrentTimestamp.utils";
 
 @Entity("uploads")
 export class Uploads {
@@ -28,4 +30,9 @@ export class Uploads {
 
 	@Column()
 	uploaded_at: number;
+
+	@BeforeInsert()
+	setUploadedAt() {
+		this.uploaded_at = getCurrentTimestamp();
+	}
 }

@@ -3,7 +3,6 @@ import md5 from "md5-file";
 import { Repository } from "typeorm";
 import { Uploads } from "src/entities/uploads.entity";
 import * as fs from "node:fs";
-import getCurrentTimestamp from "./getCurrentTimestamp.utils";
 import appRoot from "app-root-path";
 
 interface ImageResponse {
@@ -48,7 +47,6 @@ const uploadImage = async (
 			uploaded_by: user_id,
 			hash,
 			url: fileUrl,
-			uploaded_at: getCurrentTimestamp(),
 		});
 
 		return {
