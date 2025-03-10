@@ -2,10 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { UserDataDto } from "src/dto/user-data.dto";
 import { Users } from "src/entities/users.entity";
-import getCurrentTimestamp from "src/utils/getCurrentTimestamp.utils";
 import { Repository } from "typeorm";
-import { API } from "vk-io";
-import { UsersGetResponse } from "vk-io/lib/api/schemas/responses";
 
 @Injectable()
 export class ParamsService {
@@ -15,66 +12,28 @@ export class ParamsService {
 	) {}
 
 	async getUser(user_id: number): Promise<UserDataDto> {
-		const api = new API({
-			token: process.env.APP_TOKEN,
-		});
-
-		let userInfo: UsersGetResponse;
-
-		let name: string;
-		let avatar: string;
-
 		let user = await this.usersRepository
 			.createQueryBuilder("users")
 			.select(["*"])
 			.where("users.user_id = :user_id", { user_id })
 			.getRawOne();
 
-		if (!user || user.updated_at < getCurrentTimestamp()) {
-			userInfo = await api.users.get({
-				user_ids: [user_id],
-				fields: ["photo_200"],
-				lang: "ru",
-			});
+		if (!user) {
+			const values = {
+				user_id,
+			};
 
-			name = `${userInfo[0].first_name} ${userInfo[0].last_name}`;
-			avatar = userInfo[0].photo_200;
+			const insertAction = await this.usersRepository
+				.createQueryBuilder()
+				.insert()
+				.into(Users)
+				.values(values)
+				.execute();
 
-			if (!user) {
-				const values = {
-					user_id,
-					name,
-					avatar,
-				};
-
-				const insertAction = await this.usersRepository
-					.createQueryBuilder()
-					.insert()
-					.into(Users)
-					.values(values)
-					.execute();
-
-				user = {
-					...values,
-					id: insertAction.identifiers[0].id,
-				};
-			} else {
-				await this.usersRepository
-					.createQueryBuilder()
-					.update(Users)
-					.set({
-						name,
-						avatar,
-					})
-					.where("user_id = :user_id", { user_id })
-					.execute();
-
-				user = {
-					...user,
-					name,
-					avatar,
-				};
-			}
+			user = {
+				...values,
+				id: insertAction.identifiers[0].id,
+			};
 		}
 
 		return user;

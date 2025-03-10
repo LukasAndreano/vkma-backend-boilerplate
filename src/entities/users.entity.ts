@@ -9,12 +9,6 @@ export class Users {
 	@Column()
 	user_id: number;
 
-	@Column({ length: 64 })
-	name: string;
-
-	@Column({ length: 512 })
-	avatar: string;
-
 	@Column()
 	joined_at: number;
 

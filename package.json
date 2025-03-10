@@ -33,7 +33,6 @@
 		"rxjs": "^7.8.2",
 		"sharp": "^0.33.5",
 		"typeorm": "^0.3.21",
-		"vk-io": "^4.9.1",
 		"vkminiapps-params-checker": "^1.0.11"
 	},
 	"devDependencies": {

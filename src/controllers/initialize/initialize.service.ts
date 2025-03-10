@@ -7,8 +7,6 @@ export class InitializeService {
 	async initialize(user: UserDataDto): Promise<InitializeData> {
 		return {
 			id: user.id,
-			name: user.name,
-			avatar: user.avatar,
 		};
 	}
 }
